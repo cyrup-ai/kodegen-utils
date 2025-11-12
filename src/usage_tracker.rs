@@ -135,7 +135,7 @@ impl UsageTracker {
 
             "edit_block" => Some("edit"),
 
-            "start_search" | "get_more_results" | "stop_search" | "list_searches" => Some("search"),
+            "start_search" | "get_results" | "stop_search" | "list_searches" => Some("search"),
 
             "get_usage_stats"
             | "get_config"
