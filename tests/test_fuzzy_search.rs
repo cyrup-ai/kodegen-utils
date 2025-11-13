@@ -51,3 +51,22 @@ fn test_empty_strings() {
     assert_eq!(result.value, "");
     assert!((result.distance - 0.0).abs() < f64::EPSILON);
 }
+
+#[test]
+fn test_utf8_multibyte_characters() {
+    // Test with arrow symbol '→' (3-byte UTF-8 character)
+    let text = "use kodegen_mcp_schema::filesystem::{StartSearchArgs, StartSearchPromptArgs};\nuse kodegen_mcp_tool::Tool;\nuse kodegen_mcp_tool::error::McpError;\nuse rmcp::model::{Content, PromptArgument, PromptMessage, PromptMessageContent, PromptMessageRole};\nuse serde_json";
+    let query = "filesystem";
+    
+    // This should not panic even with multi-byte UTF-8 characters
+    let result = recursive_fuzzy_index_of_with_defaults(text, query);
+    
+    // Verify result is valid
+    assert!(!result.value.is_empty());
+    assert!(result.start <= result.end);
+    
+    // Test with emoji and other Unicode
+    let text_with_emoji = "Hello 👋 world → test 🎉 fuzzy";
+    let result = recursive_fuzzy_index_of_with_defaults(text_with_emoji, "fuzzy");
+    assert!(result.value.contains("fuzzy"));
+}

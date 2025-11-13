@@ -348,6 +348,12 @@ impl UsageTracker {
         )
     }
 
+    /// Get a snapshot of current usage statistics
+    #[must_use]
+    pub fn get_stats(&self) -> UsageStats {
+        self.stats.read().clone()
+    }
+
     fn format_timestamp(timestamp: i64) -> String {
         chrono::DateTime::from_timestamp(timestamp, 0).map_or_else(
             || "Unknown".to_string(),

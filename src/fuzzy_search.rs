@@ -29,20 +29,46 @@ pub struct FuzzySearchResult {
 // INTERNAL HELPERS
 // ============================================================================
 
-/// Safe substring that mimics JavaScript's substring behavior
+/// Safe substring that respects UTF-8 character boundaries
 /// - Swaps start and end if start > end
 /// - Clamps indices to valid bounds
+/// - Adjusts to nearest character boundaries (start rounds up, end rounds down)
 /// - Returns empty string for invalid ranges
 fn safe_substring(text: &str, start: usize, end: usize) -> &str {
     let len = text.len();
-    let (start, end) = if start > end {
+    
+    // Swap if reversed
+    let (mut start, mut end) = if start > end {
         (end, start)
     } else {
         (start, end)
     };
-    let start = cmp::min(start, len);
-    let end = cmp::min(end, len);
-    if start >= end { "" } else { &text[start..end] }
+    
+    // Clamp to string length
+    start = cmp::min(start, len);
+    end = cmp::min(end, len);
+    
+    // Return empty if invalid range
+    if start >= end {
+        return "";
+    }
+    
+    // Adjust start to next character boundary (round up)
+    while start < len && !text.is_char_boundary(start) {
+        start += 1;
+    }
+    
+    // Adjust end to previous character boundary (round down)
+    while end > 0 && !text.is_char_boundary(end) {
+        end -= 1;
+    }
+    
+    // Final safety check
+    if start >= end {
+        return "";
+    }
+    
+    &text[start..end]
 }
 
 // ============================================================================
