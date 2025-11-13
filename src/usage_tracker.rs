@@ -119,29 +119,29 @@ impl UsageTracker {
     /// Get tool category for categorization
     fn get_category(tool_name: &str) -> Option<&'static str> {
         match tool_name {
-            "read_file"
-            | "read_multiple_files"
-            | "write_file"
-            | "create_directory"
-            | "list_directory"
-            | "move_file"
-            | "delete_file"
-            | "delete_directory"
-            | "get_file_info"
+            "fs_read_file"
+            | "fs_read_multiple_files"
+            | "fs_write_file"
+            | "fs_create_directory"
+            | "fs_list_directory"
+            | "fs_move_file"
+            | "fs_delete_file"
+            | "fs_delete_directory"
+            | "fs_get_file_info"
             | "search_files" => Some("filesystem"),
 
             "execute_command" | "read_output" | "send_input" | "force_terminate"
             | "list_sessions" => Some("terminal"),
 
-            "edit_block" => Some("edit"),
+            "fs_edit_block" => Some("edit"),
 
-            "start_search" | "get_results" | "stop_search" | "list_searches" => Some("search"),
+            "fs_start_search" | "get_results" | "fs_stop_search" | "fs_list_searches" => Some("search"),
 
-            "get_usage_stats"
+            "inspect_usage_stats"
             | "get_config"
             | "set_config_value"
-            | "get_prompts"
-            | "get_recent_tool_calls" => Some("config"),
+            | "prompt_get"
+            | "inspect_tool_calls" => Some("config"),
 
             "list_processes" | "kill_process" => Some("process"),
 
