@@ -1,3 +1,5 @@
+use kodegen_mcp_schema::filesystem::*;
+use kodegen_mcp_schema::introspection::{INSPECT_TOOL_CALLS, INSPECT_USAGE_STATS};
 use parking_lot::RwLock;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -119,29 +121,28 @@ impl UsageTracker {
     /// Get tool category for categorization
     fn get_category(tool_name: &str) -> Option<&'static str> {
         match tool_name {
-            "fs_read_file"
-            | "fs_read_multiple_files"
-            | "fs_write_file"
-            | "fs_create_directory"
-            | "fs_list_directory"
-            | "fs_move_file"
-            | "fs_delete_file"
-            | "fs_delete_directory"
-            | "fs_get_file_info"
-            | "search_files" => Some("filesystem"),
+            FS_READ_FILE
+            | FS_READ_MULTIPLE_FILES
+            | FS_WRITE_FILE
+            | FS_CREATE_DIRECTORY
+            | FS_LIST_DIRECTORY
+            | FS_MOVE_FILE
+            | FS_DELETE_FILE
+            | FS_DELETE_DIRECTORY
+            | FS_GET_FILE_INFO => Some("filesystem"),
 
             "execute_command" | "read_output" | "send_input" | "force_terminate"
             | "list_sessions" => Some("terminal"),
 
-            "fs_edit_block" => Some("edit"),
+            FS_EDIT_BLOCK => Some("edit"),
 
-            "fs_start_search" | "get_results" | "fs_stop_search" | "fs_list_searches" => Some("search"),
+            FS_START_SEARCH | FS_GET_SEARCH_RESULTS | FS_STOP_SEARCH | FS_LIST_SEARCHES => Some("search"),
 
-            "inspect_usage_stats"
+            INSPECT_USAGE_STATS
             | "get_config"
             | "set_config_value"
             | "prompt_get"
-            | "inspect_tool_calls" => Some("config"),
+            | INSPECT_TOOL_CALLS => Some("config"),
 
             "list_processes" | "kill_process" => Some("process"),
 
