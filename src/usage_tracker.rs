@@ -349,6 +349,26 @@ impl UsageTracker {
         )
     }
 
+    /// Get formatted summary with ANSI colors and Nerd Font icons (2-line output)
+    #[must_use]
+    pub fn get_formatted_summary(&self) -> String {
+        let stats = self.stats.read();
+
+        // Calculate counts needed for display
+        let total_calls = stats.total_tool_calls;
+        let unique_tools = stats.tool_counts.len();
+        let error_count = stats.failed_calls;
+
+        // Format with magenta color only on line 1, using Nerd Font icons
+        format!(
+            "\x1b[35m󰊢 Usage Statistics\x1b[0m\n\
+             󰋼 Total calls: {} · Unique tools: {} · Errors: {}",
+            total_calls,
+            unique_tools,
+            error_count
+        )
+    }
+
     /// Get a snapshot of current usage statistics
     #[must_use]
     pub fn get_stats(&self) -> UsageStats {
