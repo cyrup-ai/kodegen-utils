@@ -136,7 +136,7 @@ impl UsageTracker {
 
             FS_EDIT_BLOCK => Some("edit"),
 
-            FS_START_SEARCH | FS_GET_SEARCH_RESULTS | FS_STOP_SEARCH | FS_LIST_SEARCHES => Some("search"),
+            FS_SEARCH => Some("search"),
 
             INSPECT_USAGE_STATS
             | "get_config"

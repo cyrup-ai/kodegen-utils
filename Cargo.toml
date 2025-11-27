@@ -1,6 +1,6 @@
 [package]
 name = "kodegen_utils"
-version = "0.3.1"
+version = "0.3.2"
 edition = "2024"
 description = "KODEGEN.ᴀɪ: Memory-efficient, Blazing-Fast, MCP tools for code generation agents."
 license = "Apache-2.0 OR MIT"
