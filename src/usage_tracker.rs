@@ -94,14 +94,11 @@ impl UsageTracker {
         tracker
     }
 
-    /// Get stats file path using dirs crate (directory creation happens async)
+    /// Get stats file path using kodegen_config (directory creation happens async)
     fn get_stats_file_path(instance_id: &str) -> PathBuf {
-        if let Some(home) = dirs::home_dir() {
-            home.join(".kodegen")
-                .join(format!("stats_{instance_id}.json"))
-        } else {
-            PathBuf::from(format!("stats_{instance_id}.json")) // Fallback
-        }
+        kodegen_config::KodegenConfig::data_dir()
+            .map(|dir| dir.join("stats").join(format!("stats_{instance_id}.json")))
+            .unwrap_or_else(|_| PathBuf::from(format!("stats_{instance_id}.json")))
     }
 
     /// Load stats from disk or create default (async)

@@ -1,4 +1,5 @@
 use chrono::{DateTime, Utc};
+use kodegen_config::KodegenConfig;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -94,11 +95,9 @@ impl EditBlockLogger {
     /// Create new async logger with background task
     #[must_use]
     pub fn new() -> Self {
-        let log_dir = dirs::home_dir()
-            .unwrap_or_else(|| PathBuf::from("."))
-            .join(".kodegen-logs");
-
-        let log_path = log_dir.join("edit-block.log");
+        let log_path = KodegenConfig::log_dir()
+            .map(|dir| dir.join("edit-block.log"))
+            .unwrap_or_else(|_| PathBuf::from("edit-block.log"));
         let log_path_arc = Arc::new(log_path);
 
         // Create unbounded channel for fire-and-forget

@@ -1,9 +1,10 @@
 //! Fuzzy search logging for `edit_block` failures
 //!
-//! Logs fuzzy match attempts to ~/.kodegen-logs/fuzzy-search.log
+//! Logs fuzzy match attempts to state directory logs/fuzzy-search.log
 //! for debugging and analysis. Format: tab-separated values (TSV)
 
 use chrono::{DateTime, Utc};
+use kodegen_config::KodegenConfig;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 use tokio::fs;
@@ -40,9 +41,9 @@ impl FuzzyLogger {
     /// Create a new fuzzy logger with default path
     #[must_use]
     pub fn new() -> Self {
-        let home = dirs::home_dir().unwrap_or_else(|| PathBuf::from("."));
-        let log_dir = home.join(".kodegen-logs");
-        let log_path = log_dir.join("fuzzy-search.log");
+        let log_path = KodegenConfig::log_dir()
+            .map(|dir| dir.join("fuzzy-search.log"))
+            .unwrap_or_else(|_| PathBuf::from("fuzzy-search.log"));
 
         Self { log_path }
     }
