@@ -55,7 +55,7 @@ fn test_empty_strings() {
 #[test]
 fn test_utf8_multibyte_characters() {
     // Test with arrow symbol '→' (3-byte UTF-8 character)
-    let text = "use kodegen_mcp_schema::filesystem::{StartSearchArgs, StartSearchPromptArgs};\nuse kodegen_mcp_tool::Tool;\nuse kodegen_mcp_tool::error::McpError;\nuse rmcp::model::{Content, PromptArgument, PromptMessage, PromptMessageContent, PromptMessageRole};\nuse serde_json";
+    let text = "use kodegen_mcp_schema::filesystem::{StartSearchArgs, StartSearchPromptArgs};\nuse kodegen_mcp_schema::Tool;\nuse kodegen_mcp_schema::error::McpError;\nuse rmcp::model::{Content, PromptArgument, PromptMessage, PromptMessageContent, PromptMessageRole};\nuse serde_json";
     let query = "filesystem";
     
     // This should not panic even with multi-byte UTF-8 characters
